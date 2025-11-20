@@ -1,3 +1,4 @@
+// auth.ts (di root project)
 import NextAuth from 'next-auth';
 import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials';
@@ -16,12 +17,21 @@ async function getUser(email: string): Promise<User | undefined> {
   }
 }
 
-export const { auth, signIn, signOut } = NextAuth({
+export const { auth, signIn, signOut, handlers } = NextAuth({
   ...authConfig,
   providers: [
     Credentials({
+      name: 'credentials',
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" }
+      },
       async authorize(credentials) {
-        const parsedCredentials = z.object({ email: z.string().email(), password: z.string().min(6) })
+        const parsedCredentials = z
+          .object({ 
+            email: z.string().email(), 
+            password: z.string().min(6) 
+          })
           .safeParse(credentials);
 
         if (parsedCredentials.success) {
@@ -33,8 +43,12 @@ export const { auth, signIn, signOut } = NextAuth({
           if (passwordsMatch) return user;
         }
 
+        console.log('Invalid credentials');
         return null;
       },
     }),
   ],
+  secret: process.env.NEXTAUTH_SECRET,
+  trustHost: true,
+  useSecureCookies: process.env.NODE_ENV === 'production',
 });
