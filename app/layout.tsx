@@ -1,17 +1,14 @@
-import "@/app/ui/global.css";
-import { inter } from "@/app/ui/fonts";
+import '@/app/ui/global.css';
+import { inter } from '@/app/ui/fonts';
 
-export const metadata = {
-  title: "My App",
-  description: "Example",
-};
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased`}>
-        {children}
-      </body>
+      <body className={`${inter.className} antialiased`}>{children}</body>
     </html>
   );
 }

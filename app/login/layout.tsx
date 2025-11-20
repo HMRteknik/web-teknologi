@@ -1,14 +1,14 @@
-import "@/app/ui/global.css";
-import { inter } from "@/app/ui/fonts";
-export default function LoginLayout({
+import '@/app/ui/global.css';
+import { lusitana } from '@/app/ui/fonts';
+
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <section className="login-layout">
+    <div className={`${lusitana.className} antialiased`}>
       {children}
-    </section>
+    </div>
   );
 }
-
